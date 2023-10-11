@@ -110,6 +110,8 @@ def buscar_patente(fdb):
         print("No se encontraron patentes.")
 
     print("\ncantidad de registros mostrados:", contador_registros_mostrados)
+    file_binary.close()
+    print()
 
 
 def buscar_codigo_ticket(fdb):
@@ -127,6 +129,37 @@ def buscar_codigo_ticket(fdb):
             break
     if not se_encontro_id:
         print("\n No se encontró codigo de ticket.")
+
+    file_binary.close()
+    print()
+
+
+def matriz_cant_vehiculos(fdb):
+    mat = [[0] * 3 for _ in range(5)]
+
+    file_binary = open(fdb, "rb")
+    t = os.path.getsize(fdb)
+    while file_binary.tell() < t:
+        ticket = pickle.load(file_binary)
+        col = int(ticket.tipo_vehiculo)
+        fil = int(ticket.pais_cabina)
+        mat[fil][col] += 1
+
+    file_binary.close()
+    return mat
+
+
+def mostrar_matriz_contador(mat):
+    pais_cabina = ["Argentina", "Bolivia", "Brasil", "Paraguay","Uruguay"]
+    tipo_vehiculo = ["moto", "auto", "camion"]
+
+    for i in range(len(mat)):
+        for j in range(len(mat[i])):
+            resp_cant = "Para el tipo de vehiculo:" + tipo_vehiculo[j] + \
+                        "\t\ty para el pais de cabina:" + pais_cabina[i] + \
+                        "\t\thay un total de:" + str(mat[i][j]) + " vehículos."
+
+            print(resp_cant)
 
 
 def cargar_nuevo_ticket(fdb):
