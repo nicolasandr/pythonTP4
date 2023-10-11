@@ -16,7 +16,8 @@ class Ticket:
     def __str__(self):
         r = "Nro_Ticket:" + str(self.id) + "\t" + "Patente:" + str(self.patente) + "\t\t" + "Vehiculo:" + str(
             self.tipo_vehiculo) + "\t\t" + "Forma_pago:" + str(
-            self.forma_pago) + "\t" + "Pais_cabina:" + str(self.pais_cabina) + "\t" + "Km:" + str(self.kilometros)+ "\t" +"Pais de vehiculo:" + str(
+            self.forma_pago) + "\t" + "Pais_cabina:" + str(self.pais_cabina) + "\t" + "Km:" + str(
+            self.kilometros) + "\t" + "Pais de vehiculo:" + str(
             self.pais_vehiculo)
         return r
 
@@ -79,11 +80,6 @@ def pais_de_vehiculo(patentee):
 
 
 def mostrar_archivo(fdb):
-    if not os.path.exists(fdb):
-        print("El archivo", fdb, "no existe...")
-        print()
-        return
-
     print("Contenido actual del achivo", fdb, ":")
     file_binary = open(fdb, "rb")
 
@@ -94,6 +90,26 @@ def mostrar_archivo(fdb):
         print(ticket)
     file_binary.close()
     print()
+
+
+def buscar_patente(fdb):
+    patente_validada = validar_patente("Ingrese una patente para buscar en el sistema:")
+    contador_registros_mostrados = 0
+
+    file_binary = open(fdb, "rb")
+
+    t = os.path.getsize(fdb)
+    print()
+    while file_binary.tell() < t:
+        ticket = pickle.load(file_binary)
+        if ticket.patente == patente_validada:
+            print(ticket)
+            contador_registros_mostrados += 1
+
+    if contador_registros_mostrados == 0:
+        print("No se encontraron patentes.")
+
+    print("\ncantidad de registros mostrados:",contador_registros_mostrados)
 
 
 def cargar_nuevo_ticket(fdb):

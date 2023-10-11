@@ -6,7 +6,7 @@ def mostrar_menu():
     print("\n1.Crear archivo binario de registros")
     print("2.cargar por teclado los datos de un tiket")
     print("3.Mostrar todos los datos de todos los registros del archivo binario.")
-    print("4.Mostrar todos los registros del archivo binario.")
+    print("4.Mostrar todos los registros del archivo binario de una patente que se cargue por teclado.")
     print("5.Buscarsi existe en el archivo binario un tiket cargado por teclado")
     print(
         "6.Determinar y mostrar la cantidad de vehiculos de cada combinacion posible entre tipo de vehiculo y pais de cabina en el archivo binario")
@@ -47,10 +47,14 @@ def principal():
         elif int(opcion) == 3 and existe_archivo_binario(documento_binario):
             mostrar_archivo(documento_binario)
 
+        elif int(opcion) == 4 and existe_archivo_binario(documento_binario):
+            buscar_patente(documento_binario)
+
         elif not existe_archivo_binario(documento_binario) and opcion != 0:
             print("\n=========================================")
             print("ATENCION! Primero debe cargar el arreglo.")
             print("=========================================\n")
+
 
 
 if __name__ == '__main__':

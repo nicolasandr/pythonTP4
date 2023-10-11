@@ -43,12 +43,11 @@ def validar_patente(mensaje):
         entrada = input(mensaje)
         entrada_mayusculas = entrada.upper()
         if len(entrada_mayusculas) > 0:
-            break
+            return entrada_mayusculas
         else:
             print("\n===========================================================")
             print("Debe ingresar una patente. Inténtalo nuevamente.")
             print("=============================================================\n")
-    return entrada_mayusculas
 
 
 def validar_forma_pago(manual, telepeaje, mensaje):
