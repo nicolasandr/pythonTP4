@@ -1,13 +1,42 @@
-def menu():
-    print("1.Crear archivo binario de registros")
-    print("2.cargar por teclado los datos de un tiket")
-    print("3.Mostrar todos los datos de todos los registros del archivo binario.")
-    print("4.Mostrar todos los registros del archivo binario.")
-    print("5.Buscarsi existe en el archivo binario un tiket cargado por teclado")
-    print(
-        "6.Determinar y mostrar la cantidad de vehiculos de cada combinacion posible entre tipo de vehiculo y pais de cabina en el archivo binario")
-    print(
-        "7. muestre la cantidad total de vehículos contados por cada tipo de vehículo posible, y la cantidad total de vehículos contados por cada país de cabina posible.")
-    print(
-        "8. Calcular y mostrar la distancia promedio desde la última cabina recorrida entre todos los vehículos del archivo binario")
+import pickle
 
+
+class Ticket:
+    def __init__(self, id, patent, tipo_de_vehiculo, forma_de_pago, pais_cabina, kilomentros):
+        self.id = id
+        self.patente = patent
+        self.tipo_vehiculo = tipo_de_vehiculo
+        self.forma_pago = forma_de_pago
+        self.pais_cabina = pais_cabina
+        self.kilometros = kilomentros
+
+    def __str__(self):
+        r = "Nro_Ticket:" + str(self.id) + "\t" + "Patente:" + str(self.patente) + "\t\t" + "Vehiculo:" + str(
+            self.tipo_vehiculo) + "\t\t" + "Forma_pago:" + str(
+            self.forma_pago) + "\t" + "Pais_cabina:" + str(self.pais_cabina) + "\t" + "Km:" + str(self.kilometros)
+        return r
+
+
+def cargar_datos_csv(fd, fdb):
+    file = open(fd, "rt")
+    file_binary = open(fdb, "wb")
+    file.readline()
+    file.readline()
+
+    for line in file:
+        line = line[:-1]
+        ticket = line.split(",")
+        id = ticket[0]
+        patente = ticket[1]
+        tipo_vehiculo = ticket[2]
+        forma_pago = ticket[3]
+        pais_cabina = ticket[4]
+        kilometros = ticket[5]
+
+        registro = Ticket(id, patente, tipo_vehiculo, forma_pago, pais_cabina, kilometros)
+
+        pickle.dump(registro, file_binary)
+
+    file.close()
+    file_binary.close()
+    print("\nArchivo cargado correctamente\n")

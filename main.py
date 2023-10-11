@@ -1,11 +1,32 @@
 from funciones import *
+from validaciones import *
 
 
-
+def mostrar_menu():
+    print("\n1.Crear archivo binario de registros")
+    print("2.cargar por teclado los datos de un tiket")
+    print("3.Mostrar todos los datos de todos los registros del archivo binario.")
+    print("4.Mostrar todos los registros del archivo binario.")
+    print("5.Buscarsi existe en el archivo binario un tiket cargado por teclado")
+    print(
+        "6.Determinar y mostrar la cantidad de vehiculos de cada combinacion posible entre tipo de vehiculo y pais de cabina en el archivo binario")
+    print(
+        "7. muestre la cantidad total de vehículos contados por cada tipo de vehículo posible, y la cantidad total de vehículos contados por cada país de cabina posible.")
+    print(
+        "8. Calcular y mostrar la distancia promedio desde la última cabina recorrida entre todos los vehículos del archivo binario")
+    print("\ningrese 0 para finalizar\n")
 
 
 def principal():
-    menu()
+    documento = 'peajes-tp4.csv'
+    documento_binario = 'ticket.dat'
+    opcion = -1
+
+    while opcion != 0:
+        mostrar_menu()
+        opcion = validacion_entrada(0, 9, "\ningrese una opcion: ")
+        if int(opcion) == 1:
+            cargar_datos_csv(documento, documento_binario)
 
 
 if __name__ == '__main__':
