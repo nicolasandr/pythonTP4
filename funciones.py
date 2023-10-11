@@ -109,7 +109,24 @@ def buscar_patente(fdb):
     if contador_registros_mostrados == 0:
         print("No se encontraron patentes.")
 
-    print("\ncantidad de registros mostrados:",contador_registros_mostrados)
+    print("\ncantidad de registros mostrados:", contador_registros_mostrados)
+
+
+def buscar_codigo_ticket(fdb):
+    id_validado = validar_identificador(1, "Ingrese codigo de ticket a buscar en el sistema:")
+    file_binary = open(fdb, "rb")
+    se_encontro_id = False
+
+    t = os.path.getsize(fdb)
+    print()
+    while file_binary.tell() < t:
+        ticket = pickle.load(file_binary)
+        if ticket.id == id_validado:
+            print(ticket)
+            se_encontro_id = True
+            break
+    if not se_encontro_id:
+        print("\n No se encontró codigo de ticket.")
 
 
 def cargar_nuevo_ticket(fdb):

@@ -7,7 +7,7 @@ def mostrar_menu():
     print("2.cargar por teclado los datos de un tiket")
     print("3.Mostrar todos los datos de todos los registros del archivo binario.")
     print("4.Mostrar todos los registros del archivo binario de una patente que se cargue por teclado.")
-    print("5.Buscarsi existe en el archivo binario un tiket cargado por teclado")
+    print("5.Buscar si existe en el archivo binario un codigo de ticket cargando el codigo por teclado.")
     print(
         "6.Determinar y mostrar la cantidad de vehiculos de cada combinacion posible entre tipo de vehiculo y pais de cabina en el archivo binario")
     print(
@@ -49,6 +49,9 @@ def principal():
 
         elif int(opcion) == 4 and existe_archivo_binario(documento_binario):
             buscar_patente(documento_binario)
+
+        elif int(opcion) == 5 and existe_archivo_binario(documento_binario):
+            buscar_codigo_ticket(documento_binario)
 
         elif not existe_archivo_binario(documento_binario) and opcion != 0:
             print("\n=========================================")
