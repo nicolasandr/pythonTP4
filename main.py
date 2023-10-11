@@ -33,7 +33,7 @@ def principal():
                     if entrada == 1 or entrada == 2:
                         if entrada == 1:
                             os.remove(documento_binario)
-                            print("\nArchivo binario eliminado existosamente.\n")
+                            print(" Archivo binario eliminado existosamente.\n")
                             break
                         if entrada == 2:
                             break
