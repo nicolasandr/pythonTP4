@@ -30,5 +30,6 @@ def principal():
         elif int(opcion) == 2:
             cargar_nuevo_ticket(documento_binario)
 
+
 if __name__ == '__main__':
     principal()
