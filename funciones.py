@@ -1,4 +1,5 @@
 import pickle
+from validaciones import *
 
 
 class Ticket:
@@ -40,3 +41,24 @@ def cargar_datos_csv(fd, fdb):
     file.close()
     file_binary.close()
     print("\nArchivo cargado correctamente\n")
+
+
+def cargar_nuevo_ticket(fdb):
+    file_binary = open(fdb, "ab")
+
+    id = validar_identificador(1, mensaje="\nIngrese identificador (debe ser mayor o igual a 1): ")
+    patente = validar_patente(mensaje="\nIngrese patente (puede contener cualquier tamaño): ")
+    tipo_vehiculo = validacion_entrada(0, 2,
+                                       mensaje="\nIngrese el tipo de vehiculo: (0: motocicleta,1: automóvil, ""2: camión): ")
+    forma_pago = validar_forma_pago(1, 2, mensaje="\ningrese la forma de pago (1: manual, 2 telepeaje): ")
+    pais_cabina = validacion_entrada(0, 4, mensaje="\nIngrese donde se encuentra la cabina (0: "
+                                                   "Argentina - 1: Bolivia - 2: Brasil - 3: "
+                                                   "Paraguay - 4: Uruguay): ")
+    kilometros = validacion_entrada(0, 999, mensaje="\nIngrese la distancia en Km entre (0 y 999): ")
+
+    registro = Ticket(id, patente, tipo_vehiculo, forma_pago, pais_cabina, kilometros)
+
+    pickle.dump(registro, file_binary)
+    file_binary.close()
+
+    print("\nSe cargo correctamente el archivo binario\n")

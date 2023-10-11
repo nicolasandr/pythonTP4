@@ -27,7 +27,8 @@ def principal():
         opcion = validacion_entrada(0, 9, "\ningrese una opcion: ")
         if int(opcion) == 1:
             cargar_datos_csv(documento, documento_binario)
-
+        elif int(opcion) == 2:
+            cargar_nuevo_ticket(documento_binario)
 
 if __name__ == '__main__':
     principal()
