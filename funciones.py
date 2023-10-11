@@ -4,23 +4,24 @@ import os
 
 
 class Ticket:
-    def __init__(self, id, patent, tipo_de_vehiculo, forma_de_pago, pais_cabina, kilomentros):
+    def __init__(self, id, patent, tipo_de_vehiculo, forma_de_pago, pais_cabina, kilomentros, pais_vehiculo):
         self.id = id
         self.patente = patent
         self.tipo_vehiculo = tipo_de_vehiculo
         self.forma_pago = forma_de_pago
         self.pais_cabina = pais_cabina
         self.kilometros = kilomentros
+        self.pais_vehiculo = pais_vehiculo
 
     def __str__(self):
         r = "Nro_Ticket:" + str(self.id) + "\t" + "Patente:" + str(self.patente) + "\t\t" + "Vehiculo:" + str(
             self.tipo_vehiculo) + "\t\t" + "Forma_pago:" + str(
-            self.forma_pago) + "\t" + "Pais_cabina:" + str(self.pais_cabina) + "\t" + "Km:" + str(self.kilometros)
+            self.forma_pago) + "\t" + "Pais_cabina:" + str(self.pais_cabina) + "\t" + "Km:" + str(self.kilometros)+ "\t" +"Pais de vehiculo:" + str(
+            self.pais_vehiculo)
         return r
 
 
 def cargar_datos_csv(fd, fdb):
-
     file = open(fd, "rt")
     file_binary = open(fdb, "wb")
     file.readline()
@@ -31,18 +32,69 @@ def cargar_datos_csv(fd, fdb):
         ticket = line.split(",")
         id = ticket[0]
         patente = ticket[1]
+        pais_vehiculo = pais_de_vehiculo(patente)
         tipo_vehiculo = ticket[2]
         forma_pago = ticket[3]
         pais_cabina = ticket[4]
         kilometros = ticket[5]
 
-        registro = Ticket(id, patente, tipo_vehiculo, forma_pago, pais_cabina, kilometros)
+        registro = Ticket(id, patente, tipo_vehiculo, forma_pago, pais_cabina, kilometros, pais_vehiculo)
 
         pickle.dump(registro, file_binary)
 
     file.close()
     file_binary.close()
     print("Archivo binario creado exitosamente")
+
+
+def pais_de_vehiculo(patentee):
+    if len(patentee) == 7:
+        if patentee[0:2].isalpha() and patentee[2:5].isdigit() and patentee[5:7].isalpha():
+            # argentina AA333AA
+            procedencia_vehiculo = "Argentina"
+
+        elif patentee[0:3].isalpha() and patentee[3].isdigit() and patentee[4].isalpha() and patentee[5:7].isdigit():
+            # brasil
+            procedencia_vehiculo = "Brasil"
+        elif patentee[0] == " " and patentee[1:5].isalpha() and patentee[5:7].isdigit():
+            # chile
+            procedencia_vehiculo = "Chile"
+        elif patentee[0:2].isalpha() and patentee[2:].isdigit():
+            # Bolivia
+            procedencia_vehiculo = "Bolivia"
+        elif patentee[0:4].isalpha() and patentee[4:].isdigit():
+            # paraguay
+            procedencia_vehiculo = "Paraguay"
+        elif patentee[0:3].isalpha() and patentee[3:].isdigit():
+            # uruguay
+            procedencia_vehiculo = "Uruguay"
+        else:
+            # otro
+            procedencia_vehiculo = "Otro"
+    else:
+        # Otro
+        procedencia_vehiculo = "Otro"
+
+    return procedencia_vehiculo
+
+
+def mostrar_archivo(fdb):
+    if not os.path.exists(fdb):
+        print("El archivo", fdb, "no existe...")
+        print()
+        return
+
+    print("Contenido actual del achivo", fdb, ":")
+    file_binary = open(fdb, "rb")
+
+    # registros almacenados uno a uno en forma secuencial...
+    t = os.path.getsize(fdb)
+    while file_binary.tell() < t:
+        ticket = pickle.load(file_binary)
+        print(ticket)
+    file_binary.close()
+    print()
+
 
 def cargar_nuevo_ticket(fdb):
     file_binary = open(fdb, "ab")
@@ -57,8 +109,9 @@ def cargar_nuevo_ticket(fdb):
                                                    "Argentina - 1: Bolivia - 2: Brasil - 3: "
                                                    "Paraguay - 4: Uruguay): ")
     kilometros = validacion_entrada(0, 999, mensaje="\nIngrese la distancia en Km entre (0 y 999): ")
+    pais_vehiculo = pais_de_vehiculo(patente)
 
-    registro = Ticket(id, patente, tipo_vehiculo, forma_pago, pais_cabina, kilometros)
+    registro = Ticket(id, patente, tipo_vehiculo, forma_pago, pais_cabina, kilometros, pais_vehiculo)
 
     pickle.dump(registro, file_binary)
     file_binary.close()

@@ -1,3 +1,6 @@
+import os
+
+
 def validacion_entrada(valor1, valor2, mensaje):
     while True:
         entrada = input(mensaje)
@@ -19,13 +22,12 @@ def validacion_entrada(valor1, valor2, mensaje):
 
 def validar_identificador(valor, mensaje="Ingrese un valor: "):
     while True:
-        entrada = input(mensaje).replace(" ", "")
+        entrada = input(mensaje)
         if entrada.isdigit():
-            val = str(entrada)
-            tamanio = len(val)
+            val = int(entrada)
 
-            if tamanio >= valor:
-                break
+            if val >= valor:
+                return val
             else:
                 print("\n==========================================================================")
                 print("Error, debe ingresar un numero que sea igual o mayor a:", valor)
@@ -34,8 +36,6 @@ def validar_identificador(valor, mensaje="Ingrese un valor: "):
             print("\n===========================================================")
             print("ATENCION! Debes ingresar un valor numérico válido (mayor o igual a:", valor)
             print("=============================================================\n")
-
-    return val
 
 
 def validar_patente(mensaje):
@@ -69,3 +69,9 @@ def validar_forma_pago(manual, telepeaje, mensaje):
             print("========================================\n")
 
     return valor
+
+
+def existe_archivo_binario(fdb):
+    if os.path.exists(fdb):
+        return True
+    return False
