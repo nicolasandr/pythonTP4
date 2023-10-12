@@ -150,7 +150,7 @@ def matriz_cant_vehiculos(fdb):
 
 
 def mostrar_matriz_contador(mat):
-    pais_cabina = ["Argentina", "Bolivia", "Brasil", "Paraguay","Uruguay"]
+    pais_cabina = ["Argentina", "Bolivia", "Brasil", "Paraguay", "Uruguay"]
     tipo_vehiculo = ["moto", "auto", "camion"]
 
     for i in range(len(mat)):
@@ -160,6 +160,26 @@ def mostrar_matriz_contador(mat):
                         "\t\thay un total de:" + str(mat[i][j]) + " vehículos."
 
             print(resp_cant)
+
+
+def cantidad_vehiculos(mat):
+    vehiculos = ["motos", "autos", "camiones"]
+    pais_cabina = ["Argentina", "Bolivia", "Brasil", "Paraguay", "Uruguay"]
+    cont_por_tipo_vehiculo = [0] * 3
+    cont_por_cada_cabina = [0] * 5
+
+    for i in range(len(mat)):
+        for j in range(len(mat[i])):
+            cont_por_tipo_vehiculo[j] += mat[i][j]
+            cont_por_cada_cabina[i] += mat[i][j]
+    print()
+    print("Cantidad total por tipo de vehiculo:")
+    for i in range(len(cont_por_tipo_vehiculo)):
+        print("La cantidad total de:", vehiculos[i], "por cada tipo de vehiculo posible es:", cont_por_tipo_vehiculo[i])
+    print()
+    print("Cantidad total por pais de cabina:")
+    for i in range(len(cont_por_cada_cabina)):
+        print("La cantidad total de vehiculos por cabina de:", pais_cabina[i], "es:", cont_por_cada_cabina[i])
 
 
 def cargar_nuevo_ticket(fdb):

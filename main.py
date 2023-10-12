@@ -20,7 +20,9 @@ def mostrar_menu():
 def principal():
     documento = 'peajes-tp4.csv'
     documento_binario = 'ticket.dat'
+    ingreso_al_punto_6 = False
     opcion = -1
+    matriz_contador = []
 
     while opcion != 0:
         mostrar_menu()
@@ -56,11 +58,18 @@ def principal():
         elif int(opcion) == 6 and existe_archivo_binario(documento_binario):
             matriz_contador = matriz_cant_vehiculos(documento_binario)
             mostrar_matriz_contador(matriz_contador)
+            ingreso_al_punto_6 = True
+        elif int(opcion) == 7 and existe_archivo_binario(documento_binario):
+            if ingreso_al_punto_6:
+                cantidad_vehiculos(matriz_contador)
+            else:
+                print("-"*105)
+                print("ATENCION! Primero debe crear la matriz contador.(Ejecute el item anterior a éste y vuelva a intentarlo.)")
+                print("-" * 105)
         elif not existe_archivo_binario(documento_binario) and opcion != 0:
             print("\n=========================================")
             print("ATENCION! Primero debe cargar el arreglo.")
             print("=========================================\n")
-
 
 
 if __name__ == '__main__':
