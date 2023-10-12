@@ -9,18 +9,21 @@ def mostrar_menu():
     print("4.Mostrar todos los registros del archivo binario de una patente que se cargue por teclado.")
     print("5.Buscar si existe en el archivo binario un codigo de ticket cargando el codigo por teclado.")
     print(
-        "6.Determinar y mostrar la cantidad de vehiculos de cada combinacion posible entre tipo de vehiculo y pais de cabina.")
+        "6.Determinar y mostrar la cantidad de vehiculos de cada combinacion posible entre tipo de vehiculo y pais de "
+        "cabina.")
     print(
-        "7. muestre la cantidad total de vehículos contados por cada tipo de vehículo posible, y la cantidad total de vehículos contados por cada país de cabina posible.")
+        "7. muestre la cantidad total de vehículos contados por cada tipo de vehículo posible, y la cantidad total de "
+        "vehículos contados por cada país de cabina posible.")
     print(
-        "8. Calcular y mostrar la distancia promedio desde la última cabina recorrida entre todos los vehículos del archivo binario")
+        "8. Calcular y mostrar la distancia promedio desde la última cabina recorrida entre todos los vehículos del "
+        "archivo binario")
     print("\ningrese 0 para finalizar\n")
 
 
 def principal():
     documento = 'peajes-tp4.csv'
     documento_binario = 'ticket.dat'
-    ingreso_al_punto_6 = False
+    ingreso_al_punto_6 = ingreso_al_punto_7 = False
     opcion = -1
     matriz_contador = []
 
@@ -59,13 +62,28 @@ def principal():
             matriz_contador = matriz_cant_vehiculos(documento_binario)
             mostrar_matriz_contador(matriz_contador)
             ingreso_al_punto_6 = True
+
         elif int(opcion) == 7 and existe_archivo_binario(documento_binario):
             if ingreso_al_punto_6:
                 cantidad_vehiculos(matriz_contador)
+                ingreso_al_punto_7 = True
             else:
                 print("-"*105)
-                print("ATENCION! Primero debe crear la matriz contador.(Ejecute el item anterior a éste y vuelva a intentarlo.)")
+                print("ATENCION! Primero debe crear la matriz contador.(Ejecute el item anterior a éste y vuelva a "
+                      "intentarlo.)")
                 print("-" * 105)
+
+        elif int(opcion) == 8 and existe_archivo_binario(documento_binario):
+            if ingreso_al_punto_7:
+                promedio = calcular_distancia_promedio(documento_binario)
+                arreglor_registros=cargar_y_ordenar_registros(promedio, documento_binario)
+                mostrar_promedio_y_arreglo_registros(promedio,arreglor_registros)
+            else:
+                print("-"*105)
+                print("ATENCION! Primero debe calcular el promedio de todas las distancias en km.(Ejecute el item "
+                      "anterior a éste y vuelva a intentarlo.)")
+                print("-" * 105)
+
         elif not existe_archivo_binario(documento_binario) and opcion != 0:
             print("\n=========================================")
             print("ATENCION! Primero debe cargar el arreglo.")

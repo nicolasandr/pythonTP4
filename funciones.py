@@ -1,6 +1,7 @@
 import pickle
 from validaciones import *
 import os
+import io
 
 
 class Ticket:
@@ -116,9 +117,8 @@ def buscar_patente(fdb):
 
 def buscar_codigo_ticket(fdb):
     id_validado = validar_identificador(1, "Ingrese codigo de ticket a buscar en el sistema:")
-    file_binary = open(fdb, "rb")
     se_encontro_id = False
-
+    file_binary = open(fdb, "rb")
     t = os.path.getsize(fdb)
     print()
     while file_binary.tell() < t:
@@ -132,6 +132,24 @@ def buscar_codigo_ticket(fdb):
 
     file_binary.close()
     print()
+
+
+def calcular_distancia_promedio(fdb):
+    file_binary = open(fdb, "rb")
+    t = os.path.getsize(fdb)
+    acumulador_km = 0
+    acumulador_cantidad = 0
+
+    while file_binary.tell() < t:
+        ticket = pickle.load(file_binary)
+        acumulador_km += int(ticket.kilometros)
+        acumulador_cantidad += 1
+
+    if acumulador_cantidad != 0:
+        promedio = acumulador_km // acumulador_cantidad
+        return promedio
+    else:
+        return 0
 
 
 def matriz_cant_vehiculos(fdb):
@@ -203,3 +221,46 @@ def cargar_nuevo_ticket(fdb):
     file_binary.close()
 
     print("\nSe cargo correctamente el archivo binario\n")
+
+
+def ordenamiento_shell_sort(v):
+    n = len(v)
+    h = 1
+    while h <= n // 9:
+        h = 3 * h + 1
+
+    while h > 0:
+        for j in range(h, n):
+            y = v[j]
+            k = j - h
+            while k >= 0 and int(y.kilometros) < int(v[k].kilometros):
+                v[k + h] = v[k]
+                k -= h
+            v[k + h] = y
+        h //= 3
+
+
+def cargar_y_ordenar_registros(prom, fdb):
+    arreglo_registros = []
+    file_binary = open(fdb, 'rb')
+    t = os.path.getsize(fdb)
+    """
+    Leemos archivo binario sesde la posicion 0: file_binary.seek(0, io.SEEK_SET)
+    """
+    file_binary.seek(0, io.SEEK_SET)
+    while file_binary.tell() < t:
+        ticket = pickle.load(file_binary)
+        if int(ticket.kilometros) > int(prom):
+            arreglo_registros.append(ticket)
+
+    file_binary.close()
+
+    ordenamiento_shell_sort(arreglo_registros)
+
+    return arreglo_registros
+
+
+def mostrar_promedio_y_arreglo_registros(prom, vec):
+    print("El promedio es:", prom)
+    for i in range(len(vec)):
+        print(vec[i])
