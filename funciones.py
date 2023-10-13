@@ -46,7 +46,9 @@ def cargar_datos_csv(fd, fdb):
 
     file.close()
     file_binary.close()
-    print("Archivo binario creado exitosamente")
+    print("\n"+"="*40)
+    print("Archivo binario creado con exito.")
+    print("="*40)
 
 
 def pais_de_vehiculo(patentee):
